@@ -25,6 +25,7 @@ async function main() {
     .replace(/<!--START_ACTIVITY-->[\s\S]*<!--END_ACTIVITY-->/, `<!--START_ACTIVITY-->\n${activities}\n<!--END_ACTIVITY-->`)
     .replace(/<!--START_COMMITS-->[\s\S]*<!--END_COMMITS-->/, `<!--START_COMMITS-->\n${commitTable}\n<!--END_COMMITS-->`);
 
+
   fs.writeFileSync("README.md", newReadme);
 }
 
