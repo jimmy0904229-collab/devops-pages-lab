@@ -2,29 +2,29 @@ name: Update Activity Log
 
 on:
   schedule:
-    - cron: "0 * * * *"  # 每小時執行
+    - cron: "0 * * * *" # 每小時執行
   workflow_dispatch:
 
 jobs:
-  update:
+  update-log:
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v3
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v3
+        uses: actions/checkout@v4
         with:
-          node-version: 18
+          token: ${{ TOKEN }}  
 
-      - name: Install axios
-        run: npm install axios
-
-      - name: Run generate script
-        run: node .github/scripts/generate.js
+      - name: Run activity update script
+        run: |
+          echo "Updating activity log..."
+          python scripts/update_activity.py
 
       - name: Commit and push changes
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
-          commit_message: "🔁 Auto-update activity log and commits"
+          commit_message: "🧾 Update activity log"
+          branch: main
+          commit_user_name: github-actions[bot]
+          commit_user_email: github-actions[bot]@users.noreply.github.com
+          token: ${{ TOKEN }}   
