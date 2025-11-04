@@ -32,9 +32,8 @@ jobs:
         run: npm install
 
       - name: Generate activity log
-        run: node generate.js
+        run: node scripts/generate.js
 
-     
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
