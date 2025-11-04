@@ -1,4 +1,4 @@
-name: Update Activity Log
+name: Update Activity Log and Deploy
 
 on:
   schedule:
@@ -6,24 +6,27 @@ on:
   workflow_dispatch:
 
 jobs:
-  update-log:
+  update:
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
-          token: ${{ secrets.TOKEN }}   
+          token: ${{ secrets.TOKEN }}
 
-      - name: Install dependencies
-        run: npm install axios
-
-      - name: Run generate script
+      - name: Run activity update script
         run: node .github/scripts/generate.js
+
+      - name: Force Pages rebuild
+        run: touch index.md
 
       - name: Commit and push changes
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
-          commit_message: "🔁 Auto-update activity log and commits"
+          commit_message: "🔁 Update README and force Pages rebuild"
           branch: main
-          token: ${{ secrets.TOKEN }}   
+          token: ${{ secrets.TOKEN }}
+
+      - name: Deploy to GitHub Pages
+        uses: actions/deploy-pages@v4
